@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Co-Pilot</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="logo">Co<em>Pilot</em> — Finalé</div>
+    <div class="user-info">
+      <b id="top-user-name">Loading...</b>
+      <span id="top-user-sub">MLA · Loading...</span>
+    </div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-tab active" onclick="go(this,'home')">Home</div>
+    <div class="nav-tab" onclick="go(this,'todo')">To-Do</div>
+    <div class="nav-tab" onclick="go(this,'commitments')">Commitments</div>
+    <div class="nav-tab" onclick="go(this,'chat')">Chat</div>
+    <div class="nav-tab" onclick="go(this,'suggestions')">Suggestions</div>
+    <div class="nav-tab" onclick="go(this,'digest')">Digest</div>
+    <div class="nav-tab" onclick="go(this,'upload')">Upload Meeting</div>
+    <div class="nav-tab" onclick="go(this,'issues')">Log Issue</div>
+    <div class="nav-tab" onclick="go(this,'profile')">Profile</div>
+  </div>
+
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+
+    <div class="home-hero">
+      <div>
+        <div class="home-greeting" id="home-greeting-text">Good morning</div>
+        <div class="home-name"><span id="hero-user-name">MLA</span></div>
+        <div class="home-meta" id="hero-user-meta">Ward Profile Loading...</div>
+        <div class="home-quick-stats">
+          <div class="hqs">
+            <div class="hqs-num red">-</div>
+            <div class="hqs-lbl">Critical</div>
+          </div>
+          <div class="hqs">
+            <div class="hqs-num amber">-</div>
+            <div class="hqs-lbl">Overdue</div>
+          </div>
+          <div class="hqs">
+            <div class="hqs-num blue">-</div>
+            <div class="hqs-lbl">Open items</div>
+          </div>
+          <div class="hqs">
+            <div class="hqs-num green">-%</div>
+            <div class="hqs-lbl">On-time rate</div>
+          </div>
+        </div>
+      </div>
+      <div class="home-date-block">
+        <div class="home-big-date" id="home-date-day">-</div>
+        <div class="home-day" id="home-date-full">Loading...</div>
+      </div>
+    </div>
+
+    <div class="home-grid">
+
+      <!-- URGENT TODO -->
+      <div class="home-card" onclick="goPage('todo')">
+        <div class="home-card-label">Urgent to-do <span>→</span></div>
+        <div style="color:#888;font-size:11px;padding:10px 0">Loading urgent items...</div>
+      </div>
+
+      <!-- QUICK CHAT -->
+      <div class="home-card" onclick="goPage('chat')">
+        <div class="home-card-label">Ask Co-Pilot <span>→</span></div>
+        <div class="home-chat-prompt">
+          <span>Am I ready for today's meetings?</span>
+          <span class="home-chat-prompt-arrow">↗</span>
+        </div>
+        <div class="home-chat-prompt">
+          <span>What are the top issues in Ward 42?</span>
+          <span class="home-chat-prompt-arrow">↗</span>
+        </div>
+        <div class="home-chat-prompt">
+          <span>Draft a response to the drainage complaints</span>
+          <span class="home-chat-prompt-arrow">↗</span>
+        </div>
+        <div class="home-chat-prompt">
+          <span>What is my track record with PWD?</span>
+          <span class="home-chat-prompt-arrow">↗</span>
+        </div>
+      </div>
+
+      <!-- TODAY'S DIGEST -->
+      <div class="home-card" onclick="goPage('digest')">
+        <div class="home-card-label">Today at a glance <span>→</span></div>
+        <div class="home-digest-row">
+          <span class="hdr-key">New complaints</span>
+          <span class="hdr-val">-</span>
+        </div>
+        <div class="home-digest-row">
+          <span class="hdr-key">Became overdue</span>
+          <span class="hdr-val red">-</span>
+        </div>
+        <div class="home-digest-row">
+          <span class="hdr-key">Resolved this week</span>
+          <span class="hdr-val green">-</span>
+        </div>
+        <div class="home-digest-row">
+          <span class="hdr-key">New commitments</span>
+          <span class="hdr-val">-</span>
+        </div>
+        <div class="home-digest-row">
+          <span class="hdr-key">Oldest unresolved</span>
+          <span class="hdr-val">-</span>
+        </div>
+      </div>
+
+      <!-- SUGGESTIONS -->
+      <div class="home-card" onclick="goPage('suggestions')">
+        <div class="home-card-label">Strategic Suggestions <span>→</span></div>
+        <div id="home-suggestions-content">
+          <div style="color:#888;font-size:11px;padding:10px 0">AI is ready to analyze your latest governance data and provide strategic insights.</div>
+        </div>
+        <div style="margin-top:10px">
+          <button class="gen-btn" style="margin-bottom:0;font-size:9px;padding:7px 14px"
+            onclick="event.stopPropagation();showSug()">Generate now</button>
+        </div>
+      </div>
+
+      <!-- COMPLAINT CLUSTERS -->
+      <div class="home-card" onclick="goPage('issues')">
+        <div class="home-card-label">Complaint clusters <span>→</span></div>
+        <div style="color:#888;font-size:11px;padding:10px 0">Loading clusters...</div>
+      </div>
+
+    </div>
+
+  </div>
+  </div>
+
+  <div class="page" id="page-todo">
+    <div class="page-title">To-Do</div>
+    <div class="page-sub">
+      <span id="todo-stats-summary">14 pending · 2 critical</span> · ranked by weight
+      <button class="gen-btn" style="float:right;margin:0;padding:4px 10px;font-size:10px" onclick="liveEscalate()">Live Escalate</button>
+    </div>
+
+    <div style="color:#666;font-size:11px;padding:20px">Loading items...</div>
+  </div>
+
+  <!-- COMMITMENTS -->
+  <div class="page" id="page-commitments">
+    <div class="page-title">Commitment Tracker</div>
+    <div class="page-sub">Personal accountability mirror · this month</div>
+
+    <div class="stats-row">
+      <div class="stat-box clickable" onclick="goTodo('critical')">
+        <div class="stat-num red">0</div>
+        <div class="stat-lbl">Critical now</div>
+      </div>
+      <div class="stat-box clickable" onclick="goTodo('urgent')">
+        <div class="stat-num amber">0</div>
+        <div class="stat-lbl">Urgent now</div>
+      </div>
+      <div class="stat-box clickable" onclick="goTodo()">
+        <div class="stat-num blue">0</div>
+        <div class="stat-lbl">Total pending</div>
+      </div>
+    </div>
+
+    <div class="bar-wrap">
+      <div class="bar">
+        <div class="bar-fill" style="width:61%"></div>
+      </div>
+      <div class="bar-labels"><span>On-time rate: 61%</span><span>↑ from 45% last month</span></div>
+    </div>
+
+    <div class="section-label">Active Commitments</div>
+    <div id="active-commitments-list" class="issue-list">
+      <div style="color:#666;font-size:11px;padding:20px">Loading active commitments...</div>
+    </div>
+
+    <div id="history-section"></div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="page" id="page-chat">
+    <div class="page-title">Chat</div>
+    <div class="page-sub">Ask anything · Gemini 3 Flash Preview · all four databases queried locally</div>
+
+    <div class="chat-wrap">
+      <div class="chat-log">
+        <div class="msg">
+          <div class="msg-from">Co-Pilot · System</div>
+          <div class="bubble ai">
+            Welcome back, Shri Rajendra Kumar Verma. I am grounded in your latest constituency data. How can I help you today?
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" type="text"
+          placeholder="Ask about your constituency, commitments, patterns, or draft a response...">
+        <button class="chat-send">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUGGESTIONS -->
+  <div class="page" id="page-suggestions">
+    <div class="page-title">Suggestions</div>
+    <div class="page-sub">Interactive Strategic Analyst · models/gemini-3-flash-preview</div>
+    <div class="sug-input-wrap">
+      <input type="text" id="sug-query" placeholder="Ask for specific strategic analysis... (e.g. 'How can I fix the drainage crisis in Ward 42?')">
+      <div class="sug-btn-group">
+        <button class="gen-btn" id="sug-gen-btn" onclick="generateSuggestions()">Analyze Focused Query</button>
+        <button class="gen-btn btn-alt" id="sug-auto-btn" onclick="generateSuggestions(true)">Analyze on Own (Auto-Think)</button>
+      </div>
+    </div>
+
+    <div id="sug-trace-container" style="display:none; margin-bottom: 20px;">
+        <div class="trace-dropdown">
+            <div class="trace-header" onclick="toggleTrace()">
+                <span id="trace-summary">Analysing...</span>
+                <span class="trace-arrow">▼</span>
+            </div>
+            <div id="trace-content" class="trace-content" style="display:none">
+                <!-- Trace entries injected here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="sug-results" class="issue-list" style="display:none">
+      <!-- Real suggestions will be injected here -->
+    </div>
+
+    <div id="sug-followup-area" style="display:none; border-top: 1px solid var(--mid); padding-top: 24px; margin-top: 30px;">
+      <div class="section-label">Refine Strategic Analysis</div>
+      <div class="sug-input-wrap" style="background: var(--paper); border: 2px solid var(--ink);">
+        <input type="text" id="sug-chat-input" placeholder="Ask a follow-up or refine these suggestions...">
+        <button class="gen-btn" style="margin-bottom:0" onclick="sendSuggestionsFollowup()">Analyze & Append</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIGEST -->
+  <div class="page" id="page-digest">
+    <div class="page-title">Weekly Digest</div>
+    <div class="page-sub">Reflection tool · summary of last 7 days</div>
+
+    <div id="digest-weekly">
+      <div class="digest-date" id="digest-period">Week of ...</div>
+
+      <div class="d-row clickable" onclick="drillDown('New complaints', 'new_items')">
+        <span class="d-key">New complaints received</span>
+        <span class="d-val" id="dw-new-issues">0</span>
+      </div>
+      <div class="d-row clickable" onclick="drillDown('Issues resolved', 'resolved')">
+        <span class="d-key">Issues resolved this week</span>
+        <span class="d-val green" id="dw-resolved">0</span>
+      </div>
+      <div class="d-row clickable" onclick="drillDown('Became overdue', 'became_overdue')">
+        <span class="d-key">Became overdue this week</span>
+        <span class="d-val red" id="dw-overdue">0</span>
+      </div>
+      <div class="d-row clickable" onclick="drillDown('New commitments', 'new_commitments')">
+        <span class="d-key">New commitments logged</span>
+        <span class="d-val" id="dw-new-commitments">0</span>
+      </div>
+
+      <div class="section-label">Current Status</div>
+      <div class="d-row clickable" onclick="goTodo('critical')">
+        <span class="d-key">Critical items pending</span>
+        <span class="d-val red" id="dw-open-critical">0</span>
+      </div>
+      <div class="d-row clickable" onclick="goTodo('urgent')">
+        <span class="d-key">Urgent items pending</span>
+        <span class="d-val amber" id="dw-open-urgent">0</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- UPLOAD MEETING -->
+  <div class="page" id="page-upload">
+    <div class="page-title">Upload Meeting</div>
+    <div class="page-sub">Audio recordings, transcripts, or Parliament session files · processed locally</div>
+
+    <div class="section-label">Select type</div>
+
+    <div class="upload-type-row">
+      <div class="upload-type selected" onclick="selectType(this)">
+        <div class="upload-type-icon">🎙</div>
+        <div class="upload-type-name">Audio Recording</div>
+        <div class="upload-type-desc">.wav · .mp3 · .m4a</div>
+      </div>
+      <div class="upload-type" onclick="selectType(this)">
+        <div class="upload-type-icon">📄</div>
+        <div class="upload-type-name">Transcript</div>
+        <div class="upload-type-desc">.txt · .pdf · .docx</div>
+      </div>
+      <div class="upload-type" onclick="selectType(this)">
+        <div class="upload-type-icon">🏛</div>
+        <div class="upload-type-name">Parliament Session</div>
+        <div class="upload-type-desc">Official sansad.in transcript</div>
+      </div>
+    </div>
+
+    <div class="upload-zone" onclick="this.querySelector('input').click()" id="meeting-upload-zone">
+      <div class="upload-icon">↑</div>
+      <div class="upload-label" id="meeting-file-label">Drop .txt file here or click to browse</div>
+      <div class="upload-sub">Transcript only (.txt) · System will extract commitments automatically</div>
+      <input type="file" id="meeting-file-input" accept=".txt" style="display:none" onchange="document.getElementById('meeting-file-label').innerText = this.files[0].name">
+    </div>
+
+    <div class="section-label">Meeting details</div>
+
+    <div class="field-row">
+      <div class="field-label">Meeting date</div>
+      <input class="field-input" type="date" id="meeting-date">
+    </div>
+
+    <div class="field-row">
+      <div class="field-label">Meeting type</div>
+      <select class="field-input" id="meeting-type">
+        <option>Constituency office</option>
+        <option>Department / bureaucrat</option>
+        <option>Party internal</option>
+        <option>Janata Darbar</option>
+        <option>Parliament session</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="field-row">
+      <div class="field-label">Participants (optional)</div>
+      <input class="field-input" type="text" id="meeting-participants" placeholder="e.g. Commissioner Singh, Ward Councillor Sharma">
+    </div>
+
+    <div class="field-row">
+      <div class="field-label">Notes (optional)</div>
+      <textarea class="field-input" id="meeting-notes" placeholder="Any context you want the system to know about this meeting"></textarea>
+    </div>
+
+    <button class="submit-btn" id="meeting-upload-btn" onclick="uploadMeeting()">Upload and Process</button>
+    <div id="meeting-upload-status" style="display:none;margin-top:12px;font-size:11px;color:var(--green)"></div>
+
+    <div class="section-label" style="margin-top:36px">Recently uploaded</div>
+
+    <div class="uploaded-list">
+      <div style="color:#666;font-size:11px;padding:20px">Loading recent meetings...</div>
+    </div>
+  </div>
+
+  <!-- LOG ISSUE -->
+  <div class="page" id="page-issues">
+    <div class="page-title">Log Issue</div>
+    <div class="page-sub">Manual entry — physical letters, walk-ins, portal complaints</div>
+
+    <div class="section-label">Citizen details</div>
+
+    <div class="two-col">
+      <div class="field-row">
+        <div class="field-label">Citizen name</div>
+        <input class="field-input" type="text" placeholder="Full name">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Contact number</div>
+        <input class="field-input" type="text" placeholder="Mobile number">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Ward / Area</div>
+        <input class="field-input" type="text" placeholder="Ward number or locality name">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Received via</div>
+        <select class="field-input">
+          <option>Physical letter</option>
+          <option>Walk-in visit</option>
+          <option>CPGRAMS portal</option>
+          <option>State grievance portal</option>
+          <option>Other portal</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field-label">Date received</div>
+        <input class="field-input" type="date">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Staff notes (optional)</div>
+        <input class="field-input" type="text" placeholder="Any context from the interaction">
+      </div>
+      <div class="field-row full-col">
+        <div class="field-label">Issue description</div>
+        <textarea class="field-input"
+          placeholder="Describe the complaint as closely to the citizen's own words as possible — used for clustering"></textarea>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="logIssue()">Log Issue</button>
+
+    <div id="submit-confirm" style="display:none;margin-top:12px;font-size:11px;color:var(--green)">
+      Issue logged — system will cluster and weight automatically
+    </div>
+
+    <div class="section-label" style="margin-top:36px">Recent entries</div>
+
+    <div id="recent-complaints-list" class="issue-list">
+      <div style="color:#666;font-size:11px;padding:20px">Loading recent entries...</div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="page" id="page-profile">
+    <div class="page-title">Profile</div>
+    <div class="page-sub">Essential details · edit and save locally</div>
+
+    <div class="section-label">Context injection</div>
+
+    <div style="font-size:11px;color:#888;margin-bottom:16px;line-height:1.7">
+      Upload text files to inject background knowledge into DB1 — constituency reports, census data, scheme details,
+      historical records, anything you want the system to know permanently.
+    </div>
+
+    <div class="upload-type-row" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="upload-type selected" onclick="selectCtx(this)">
+        <div class="upload-type-icon">🗺</div>
+        <div class="upload-type-name">Constituency Data</div>
+        <div class="upload-type-desc">Demographics, infrastructure, ward data</div>
+      </div>
+      <div class="upload-type" onclick="selectCtx(this)">
+        <div class="upload-type-icon">📋</div>
+        <div class="upload-type-name">Scheme Details</div>
+        <div class="upload-type-desc">Government schemes, eligibility, beneficiaries</div>
+      </div>
+      <div class="upload-type" onclick="selectCtx(this)">
+        <div class="upload-type-icon">📁</div>
+        <div class="upload-type-name">Other Context</div>
+        <div class="upload-type-desc">Historical records, reports, any reference</div>
+      </div>
+    </div>
+
+    <div class="upload-zone" onclick="this.querySelector('input').click()" style="margin-bottom:14px">
+      <div class="upload-icon">↑</div>
+      <div class="upload-label" id="ctx-file-label">Drop .txt file here or click to browse</div>
+      <div class="upload-sub">Text only (.txt) · injected into DB1 as permanent context</div>
+      <input type="file" id="ctx-file-input" accept=".txt" style="display:none" onchange="document.getElementById('ctx-file-label').innerText = this.files[0].name">
+    </div>
+
+    <div class="field-row">
+      <div class="field-label">Label for this context file</div>
+      <input class="field-input" type="text" id="ctx-label" placeholder="e.g. Ward 42 census 2024, PM Awas scheme details">
+    </div>
+
+    <button class="submit-btn" style="margin-bottom:24px" id="ctx-upload-btn" onclick="uploadContext()">Inject into DB1</button>
+
+    <div id="inject-confirm" style="display:none;margin-bottom:16px;font-size:11px;color:var(--green)">
+      Context injected — DB1 updated
+    </div>
+
+    <div class="section-label" style="margin-top:0">Injected context files</div>
+
+    <div class="uploaded-list">
+      <div style="color:#666;font-size:11px;padding:20px">Loading context files...</div>
+    </div>
+
+    <div class="section-label">MLA details</div>
+
+    <div class="two-col">
+      <div class="field-row">
+        <div class="field-label">Full name</div>
+        <input class="field-input" type="text" id="prof-name">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Party</div>
+        <input class="field-input" type="text" id="prof-party">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Designation</div>
+        <select class="field-input" id="prof-designation">
+          <option>MLA</option>
+          <option>MP (Lok Sabha)</option>
+          <option>MP (Rajya Sabha)</option>
+          <option>Municipal Councillor</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field-label">Term start year</div>
+        <input class="field-input" type="text" id="prof-term">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Official email</div>
+        <input class="field-input" type="text" id="prof-email">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Office contact</div>
+        <input class="field-input" type="text" id="prof-contact">
+      </div>
+    </div>
+
+    <div class="section-label">Constituency details</div>
+
+    <div class="two-col">
+      <div class="field-row">
+        <div class="field-label">Constituency name</div>
+        <input class="field-input" type="text" id="prof-ward-name">
+      </div>
+      <div class="field-row">
+        <div class="field-label">State</div>
+        <input class="field-input" type="text" id="prof-state">
+      </div>
+      <div class="field-row">
+        <div class="field-label">District</div>
+        <input class="field-input" type="text" id="prof-district">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Total wards covered</div>
+        <input class="field-input" type="text" id="prof-wards-covered">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Approximate population</div>
+        <input class="field-input" type="text" id="prof-population">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Registered voters</div>
+        <input class="field-input" type="text" id="prof-voters">
+      </div>
+    </div>
+
+    <div class="section-label">Constituency office</div>
+
+    <div class="two-col">
+      <div class="field-row full-col">
+        <div class="field-label">Office address</div>
+        <input class="field-input" type="text" id="prof-address">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Janata Darbar day</div>
+        <select class="field-input" id="prof-jd-day">
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+          <option>Saturday</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field-label">Janata Darbar time</div>
+        <input class="field-input" type="text" id="prof-jd-time">
+      </div>
+    </div>
+
+    <div class="section-label">Staff</div>
+
+    <div class="two-col">
+      <div class="field-row">
+        <div class="field-label">PA name</div>
+        <input class="field-input" type="text" id="prof-pa-name">
+      </div>
+      <div class="field-row">
+        <div class="field-label">PA contact</div>
+        <input class="field-input" type="text" id="prof-pa-contact">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Office manager</div>
+        <input class="field-input" type="text" id="prof-manager-name">
+      </div>
+      <div class="field-row">
+        <div class="field-label">Office manager contact</div>
+        <input class="field-input" type="text" id="prof-manager-contact">
+      </div>
+    </div>
+
+
+    <button class="submit-btn" onclick="saveProfile()">Save Changes</button>
+
+    <div id="prof-confirm" style="display:none;margin-top:12px;font-size:11px;color:var(--green)">
+      Changes saved locally
+    </div>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+
+</html>
