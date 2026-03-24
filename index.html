@@ -10,28 +10,74 @@
 
 <body>
 
-  <div class="topbar">
-    <div class="logo">Co<em>Pilot</em> — Finalé</div>
-    <div class="user-info">
-      <b id="top-user-name">Loading...</b>
-      <span id="top-user-sub">MLA · Loading...</span>
-    </div>
-  </div>
+  <div class="app-container">
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        Co<em>Pilot</em>
+      </div>
+      <div class="nav-group">
+        <div class="nav-tab active" onclick="go(this,'home')">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Command Center</span>
+        </div>
+        <div class="nav-tab" onclick="go(this,'todo')">
+          <span class="nav-icon">✅</span>
+          <span class="nav-label">Action Items</span>
+        </div>
+        <div class="nav-tab" onclick="go(this,'commitments')">
+          <span class="nav-icon">🤝</span>
+          <span class="nav-label">Promises Made</span>
+        </div>
+        <div class="nav-tab" onclick="go(this,'chat')">
+          <span class="nav-icon">🤖</span>
+          <span class="nav-label">AI Assistant</span>
+        </div>
+        <div class="nav-tab" onclick="go(this,'suggestions')">
+          <span class="nav-icon">💡</span>
+          <span class="nav-label">Strategic Insights</span>
+        </div>
+        <div class="nav-tab" onclick="go(this,'digest')">
+          <span class="nav-icon">📅</span>
+          <span class="nav-label">Morning Briefing</span>
+        </div>
+      </div>
 
-  <div class="nav">
-    <div class="nav-tab active" onclick="go(this,'home')">Home</div>
-    <div class="nav-tab" onclick="go(this,'todo')">To-Do</div>
-    <div class="nav-tab" onclick="go(this,'commitments')">Commitments</div>
-    <div class="nav-tab" onclick="go(this,'chat')">Chat</div>
-    <div class="nav-tab" onclick="go(this,'suggestions')">Suggestions</div>
-    <div class="nav-tab" onclick="go(this,'digest')">Digest</div>
-    <div class="nav-tab" onclick="go(this,'upload')">Upload Meeting</div>
-    <div class="nav-tab" onclick="go(this,'issues')">Log Issue</div>
-    <div class="nav-tab" onclick="go(this,'profile')">Profile</div>
-  </div>
+      <div class="nav-group-label">Tools</div>
+      <div class="nav-group">
+        <div class="nav-tab" onclick="go(this,'upload')">
+          <span class="nav-icon">🎙️</span>
+          <span class="nav-label">Record Minutes</span>
+        </div>
+        <div class="nav-tab" onclick="go(this,'issues')">
+          <span class="nav-icon">📣</span>
+          <span class="nav-label">Citizen Voice</span>
+        </div>
+        <div class="nav-tab" onclick="go(this,'profile')">
+          <span class="nav-icon">🏢</span>
+          <span class="nav-label">My Office</span>
+        </div>
+      </div>
 
-  <!-- HOME -->
-  <div class="page active" id="page-home">
+      <div class="sidebar-footer">
+        <div class="user-avatar" id="sidebar-avatar">RV</div>
+        <div class="user-info">
+          <div id="top-user-name">Loading...</div>
+          <div id="top-user-sub">MLA · Loading...</div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="content-area">
+      <header class="content-header">
+        <div id="current-page-title" class="header-title">Command Center</div>
+        <div class="header-actions">
+          <button class="icon-btn" onclick="goPage('chat')">🔍 Search</button>
+          <button class="primary-btn-sm" onclick="goPage('issues')">+ New Entry</button>
+        </div>
+      </header>
+
+      <!-- HOME -->
+      <div class="page active" id="page-home">
 
     <div class="home-hero">
       <div>
@@ -65,83 +111,57 @@
 
     <div class="home-grid">
 
-      <!-- URGENT TODO -->
+      <!-- PRIMARY FOCUS (AI RECOMMENDATION) -->
+      <div class="home-card large-card">
+        <div class="home-card-label">Recommended Next Action <span class="badge ai">AI Suggested</span></div>
+        <div id="hero-focus-content">
+          <h2 style="margin-bottom: 12px; color: var(--ink);">Review the Drainage Crisis in Ward 42</h2>
+          <p style="color: var(--ink-light); margin-bottom: 24px; line-height: 1.6;">There have been 15 new complaints in the last 48 hours. The Public Works Department (PWD) is slow to respond. A site visit or formal escalation is recommended before the monsoon begins.</p>
+          <div class="action-buttons">
+            <button class="primary-btn-sm" onclick="goPage('suggestions')">Analyze Solution</button>
+            <button class="icon-btn" onclick="goPage('issues')">View Complaints</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- URGENT ITEMS -->
       <div class="home-card" onclick="goPage('todo')">
-        <div class="home-card-label">Urgent to-do <span>→</span></div>
-        <div style="color:#888;font-size:11px;padding:10px 0">Loading urgent items...</div>
+        <div class="home-card-label">High Priority <span class="badge red" id="hero-critical-count">0</span></div>
+        <div id="hero-urgent-list" class="mini-list">
+          <div class="mini-item">Loading critical items...</div>
+        </div>
       </div>
 
       <!-- QUICK CHAT -->
       <div class="home-card" onclick="goPage('chat')">
-        <div class="home-card-label">Ask Co-Pilot <span>→</span></div>
+        <div class="home-card-label">AI Assistant <span>→</span></div>
         <div class="home-chat-prompt">
           <span>Am I ready for today's meetings?</span>
-          <span class="home-chat-prompt-arrow">↗</span>
         </div>
         <div class="home-chat-prompt">
-          <span>What are the top issues in Ward 42?</span>
-          <span class="home-chat-prompt-arrow">↗</span>
+          <span>Summarize the top issues in Ward 42.</span>
         </div>
         <div class="home-chat-prompt">
-          <span>Draft a response to the drainage complaints</span>
-          <span class="home-chat-prompt-arrow">↗</span>
-        </div>
-        <div class="home-chat-prompt">
-          <span>What is my track record with PWD?</span>
-          <span class="home-chat-prompt-arrow">↗</span>
+          <span>Draft a response to the PWD.</span>
         </div>
       </div>
 
-      <!-- TODAY'S DIGEST -->
+      <!-- RECENT WINS -->
       <div class="home-card" onclick="goPage('digest')">
-        <div class="home-card-label">Today at a glance <span>→</span></div>
-        <div class="home-digest-row">
-          <span class="hdr-key">New complaints</span>
-          <span class="hdr-val">-</span>
+        <div class="home-card-label">Recent Impact <span class="badge green">Successful</span></div>
+        <div class="impact-stat">
+          <div class="impact-num" id="hero-resolved-count">0</div>
+          <div class="impact-label">Issues resolved this week</div>
         </div>
-        <div class="home-digest-row">
-          <span class="hdr-key">Became overdue</span>
-          <span class="hdr-val red">-</span>
-        </div>
-        <div class="home-digest-row">
-          <span class="hdr-key">Resolved this week</span>
-          <span class="hdr-val green">-</span>
-        </div>
-        <div class="home-digest-row">
-          <span class="hdr-key">New commitments</span>
-          <span class="hdr-val">-</span>
-        </div>
-        <div class="home-digest-row">
-          <span class="hdr-key">Oldest unresolved</span>
-          <span class="hdr-val">-</span>
-        </div>
-      </div>
-
-      <!-- SUGGESTIONS -->
-      <div class="home-card" onclick="goPage('suggestions')">
-        <div class="home-card-label">Strategic Suggestions <span>→</span></div>
-        <div id="home-suggestions-content">
-          <div style="color:#888;font-size:11px;padding:10px 0">AI is ready to analyze your latest governance data and provide strategic insights.</div>
-        </div>
-        <div style="margin-top:10px">
-          <button class="gen-btn" style="margin-bottom:0;font-size:9px;padding:7px 14px"
-            onclick="event.stopPropagation();showSug()">Generate now</button>
-        </div>
-      </div>
-
-      <!-- COMPLAINT CLUSTERS -->
-      <div class="home-card" onclick="goPage('issues')">
-        <div class="home-card-label">Complaint clusters <span>→</span></div>
-        <div style="color:#888;font-size:11px;padding:10px 0">Loading clusters...</div>
+        <div style="font-size: 11px; color: var(--ink-light); margin-top: 12px;">Your on-time rate has improved by 4% since last month. Keep it up!</div>
       </div>
 
     </div>
 
   </div>
-  </div>
 
   <div class="page" id="page-todo">
-    <div class="page-title">To-Do</div>
+    <div class="page-title">Action Items</div>
     <div class="page-sub">
       <span id="todo-stats-summary">14 pending · 2 critical</span> · ranked by weight
       <button class="gen-btn" style="float:right;margin:0;padding:4px 10px;font-size:10px" onclick="liveEscalate()">Live Escalate</button>
@@ -152,8 +172,8 @@
 
   <!-- COMMITMENTS -->
   <div class="page" id="page-commitments">
-    <div class="page-title">Commitment Tracker</div>
-    <div class="page-sub">Personal accountability mirror · this month</div>
+    <div class="page-title">Promises Made</div>
+    <div class="page-sub">Personal accountability mirror · tracked from public interactions</div>
 
     <div class="stats-row">
       <div class="stat-box clickable" onclick="goTodo('critical')">
@@ -209,8 +229,8 @@
 
   <!-- SUGGESTIONS -->
   <div class="page" id="page-suggestions">
-    <div class="page-title">Suggestions</div>
-    <div class="page-sub">Interactive Strategic Analyst · models/gemini-3-flash-preview</div>
+    <div class="page-title">Strategic Insights</div>
+    <div class="page-sub">AI-powered analysis of constituency patterns and governance goals</div>
     <div class="sug-input-wrap">
       <input type="text" id="sug-query" placeholder="Ask for specific strategic analysis... (e.g. 'How can I fix the drainage crisis in Ward 42?')">
       <div class="sug-btn-group">
@@ -246,8 +266,8 @@
 
   <!-- DIGEST -->
   <div class="page" id="page-digest">
-    <div class="page-title">Weekly Digest</div>
-    <div class="page-sub">Reflection tool · summary of last 7 days</div>
+    <div class="page-title">Morning Briefing</div>
+    <div class="page-sub">Strategic summary of the last 7 days and immediate priorities</div>
 
     <div id="digest-weekly">
       <div class="digest-date" id="digest-period">Week of ...</div>
@@ -284,8 +304,8 @@
 
   <!-- UPLOAD MEETING -->
   <div class="page" id="page-upload">
-    <div class="page-title">Upload Meeting</div>
-    <div class="page-sub">Audio recordings, transcripts, or Parliament session files · processed locally</div>
+    <div class="page-title">Record Minutes</div>
+    <div class="page-sub">Import audio recordings, transcripts, or official session files</div>
 
     <div class="section-label">Select type</div>
 
@@ -355,7 +375,7 @@
 
   <!-- LOG ISSUE -->
   <div class="page" id="page-issues">
-    <div class="page-title">Log Issue</div>
+    <div class="page-title">Citizen Voice</div>
     <div class="page-sub">Manual entry — physical letters, walk-ins, portal complaints</div>
 
     <div class="section-label">Citizen details</div>
@@ -414,7 +434,7 @@
 
   <!-- PROFILE -->
   <div class="page" id="page-profile">
-    <div class="page-title">Profile</div>
+    <div class="page-title">My Office</div>
     <div class="page-sub">Essential details · edit and save locally</div>
 
     <div class="section-label">Context injection</div>
@@ -581,6 +601,9 @@
     <div id="prof-confirm" style="display:none;margin-top:12px;font-size:11px;color:var(--green)">
       Changes saved locally
     </div>
+  </div>
+
+    </main>
   </div>
 
   <script src="/static/script.js"></script>
