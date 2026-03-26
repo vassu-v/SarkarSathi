@@ -55,7 +55,19 @@ The Suggestion system is a multi-round autonomous agent designed for high-level 
 *   **Transparent Reasoning:** Every suggested intervention is accompanied by a full "Thinking Trace." This collapsible dropdown in the UI reveals the agent's step-by-step logic, the tools it called, and the data it used.
 *   **Data-Backed Output:** Generates 3-4 specific, actionable strategic interventions prioritized by urgency (Critical, Urgent, Normal), each referencing actual constituency data.
 
-### API Endpoints
+## AI Infrastructure — Centralized LLM Wrapper
+
+To ensure architectural consistency and ease of maintenance, all interaction with Large Language Models (LLMs) is channeled through a centralized wrapper:
+
+### The `ai.py` Module
+All Project-level engines (`main.py`, `rag_engine.py`, `commitment_engine.py`) no longer call the Gemini SDK directly. instead, they use the `ai.call_ai(prompt)` function.
+*   **Decoupled Logic:** Application logic is separated from provider-specific SDKs. If the model needs to be swapped (e.g., from `gemini-2.5-flash-lite` to a local LLM or another provider), it only needs to be changed in one file: `Project/ai.py`.
+*   **Uniform Configuration:** Ensures that model parameters (temperature, top_p, etc.) and model versions are consistent across all features (Chat, Suggestions, Extraction).
+*   **Global Model:** Currently standardized on `gemini-2.5-flash-lite` for an optimal balance of speed, reasoning capability, and cost-efficiency.
+
+---
+
+## API Endpoints
 ```
 GET  /api/todo                    — pending items, filterable by type/urgency/ward
 GET  /api/digest                  — weekly summary
@@ -77,6 +89,29 @@ POST /api/upload/meeting          — upload .txt transcript → batch extract
 POST /api/upload/context          — upload .txt context file → store in DB
 POST /api/profile                 — update profile
 ```
+
+---
+
+## 📁 Technical Documentation & System Design
+
+For a deeper dive into the architecture, design decisions, and module-specific logic, refer to the `Docs/` directory. These documents provide the "First Principles" thinking behind the system.
+
+| Document | Description |
+|----------|-------------|
+| [**SarkarSathi Vision**](Docs/Readme.md) | High-level philosophy, problem statement, and 4-DB architecture. |
+| [**System Architecture**](Docs/copilot.md) | Comprehensive technical deep-dive into all engines and data flows. |
+| [**API Reference**](Docs/FastAPI_endpoints.md) | Detailed documentation for all backend endpoints and request/response models. |
+| [**RAG System Design**](Docs/rag_systemdesign_project.md) | Logic behind the 3-Layer context assembly and semantic routing. |
+| [**Agentic Suggestions**](Docs/suggestions_agent_design.md) | Multi-round autonomous agent loop and governance tool-calling logic. |
+| [**Commitment Engine**](Docs/commitment-engine-design.md) | Priority weighting, escalation ladders, and meeting extraction patterns. |
+| [**Issue Engine**](Docs/issue-engine-design.md) | Vector clustering, ward masking, and similarity threshold logic. |
+| [**Digest Module**](Docs/digest-module-design.md) | Pure-SQL weekly accountability and performance tracking. |
+| [**The Story**](Docs/STORY.md) | The narrative behind the "India Innovates 2026" submission. |
+
+### 🖼️ System Diagrams
+- [Full System Mermaid Diagram](Docs/full-system-mermaid-diagram.png)
+- [Commitment Extraction Flow](Docs/commitment-mermaid-diagram.png)
+- [Issue Clustering Logic](Docs/issue-engine.png)
 
 ---
 
