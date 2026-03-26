@@ -92,6 +92,29 @@ POST /api/profile                 — update profile
 
 ---
 
+## 📁 Technical Documentation & System Design
+
+For a deeper dive into the architecture, design decisions, and module-specific logic, refer to the `Docs/` directory. These documents provide the "First Principles" thinking behind the system.
+
+| Document | Description |
+|----------|-------------|
+| [**SarkarSathi Vision**](Docs/Readme.md) | High-level philosophy, problem statement, and 4-DB architecture. |
+| [**System Architecture**](Docs/copilot.md) | Comprehensive technical deep-dive into all engines and data flows. |
+| [**API Reference**](Docs/FastAPI_endpoints.md) | Detailed documentation for all backend endpoints and request/response models. |
+| [**RAG System Design**](Docs/rag_systemdesign_project.md) | Logic behind the 3-Layer context assembly and semantic routing. |
+| [**Agentic Suggestions**](Docs/suggestions_agent_design.md) | Multi-round autonomous agent loop and governance tool-calling logic. |
+| [**Commitment Engine**](Docs/commitment-engine-design.md) | Priority weighting, escalation ladders, and meeting extraction patterns. |
+| [**Issue Engine**](Docs/issue-engine-design.md) | Vector clustering, ward masking, and similarity threshold logic. |
+| [**Digest Module**](Docs/digest-module-design.md) | Pure-SQL weekly accountability and performance tracking. |
+| [**The Story**](Docs/STORY.md) | The narrative behind the "India Innovates 2026" submission. |
+
+### 🖼️ System Diagrams
+- [Full System Mermaid Diagram](Docs/full-system-mermaid-diagram.png)
+- [Commitment Extraction Flow](Docs/commitment-mermaid-diagram.png)
+- [Issue Clustering Logic](Docs/issue-engine.png)
+
+---
+
 ## Setup
 
 ```bash
